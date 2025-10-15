@@ -1,11 +1,28 @@
+from dotenv import load_dotenv
+import os
 from fastapi import FastAPI
-from google_apis import create_service
+from gmail_api import init_gmail_service, get_email_messages, get_email_message_details
 
-client_secret_file = 'secrets/client_secret.json'
-API_SERVICE_NAME = 'gmail'
-API_VERSION = 'v1'
-SCOPES = ['https://mail.google.com/']
-service = create_service(client_secret_file, API_SERVICE_NAME, API_VERSION, SCOPES)
+load_dotenv()
+
+client_secret_file = os.getenv('GOOGLE_APPLICATION_CREDENTIALS')
+service = init_gmail_service(client_secret_file)
+
+messages = get_email_messages(service, max_results=5)
+
+for msg in messages:
+    details = get_email_message_details(service, msg['id'])
+    if details:
+        print(f"Subject: {details['subject']}")
+        print(f"From: {details['sender']}")
+        print(f"Recipients: {details['recipients']}")
+        print(f"Body: {details['body'][:100]}...")
+        print(f"Snippet: {details['snippet']}")
+        print(f"Has Attachments: {details['has_attachments']}")
+        print(f"Date: {details['date']}")
+        print(f"Star: {details['star']}")
+        print(f"Label: {details['label']}")
+        print("-" * 50)
 
 app = FastAPI()
 
