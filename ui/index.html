@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job & Internship Lifecycle Tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Job & Internship Tracker</h1>
+    </header>
+    <main>
+        <section id="job-form">
+            <h2>Add New Job/Internship</h2>
+            <form id="add-job-form">
+                <label for="company">Company Name:</label>
+                <input type="text" id="company" name="company" required>
+
+                <label for="position">Position Title:</label>
+                <input type="text" id="position" name="position" required>
+
+                <label for="status">Status:</label>
+                <select id="status" name="status" required>
+                    <option value="applied">Applied</option>
+                    <option value="interviewing">Interviewing</option>
+                    <option value="offered">Offered</option>
+                    <option value="rejected">Rejected</option>
+                    <option value="accepted">Accepted</option>
+                </select>
+
+                <button type="submit">Add Job/Internship</button>
+            </form>
+        </section>
+
+        <section id="job-list">
+            <h2>Tracked Jobs & Internships</h2>
+            <ul id="jobs">
+                <!-- Job entries will be dynamically added here -->
+            </ul>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 Job Tracker</p>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>
