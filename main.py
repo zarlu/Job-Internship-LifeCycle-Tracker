@@ -1,16 +1,18 @@
 from dotenv import load_dotenv
 import os
 from fastapi import FastAPI
-from gmail_api import init_gmail_service, get_email_messages, get_email_message_details
+from gmail_api import init_gmail_service, get_email_messages, get_email_message_details, search_emails, search_email_conversations
 
 load_dotenv()
 
 client_secret_file = os.getenv('GOOGLE_APPLICATION_CREDENTIALS')
 service = init_gmail_service(client_secret_file)
 
-messages = get_email_messages(service, max_results=5)
+##messages = get_email_messages(service, max_results=5)
+query = 'from:LinkedIn'
+email_messages = search_emails(service,query,max_results=5)
 
-for msg in messages:
+for msg in email_messages:
     details = get_email_message_details(service, msg['id'])
     if details:
         print(f"Subject: {details['subject']}")

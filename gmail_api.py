@@ -90,3 +90,44 @@ def get_email_message_details(service, msg_id):
         'star': star,
         'label': label
     }
+def search_emails(service,query,user_id='me',max_results = 5):
+    messages = []
+    next_page_token = None
+    while True:
+        result = service.users().messages().list(
+            userId = user_id,
+            q=query,
+            maxResults = min(500, max_results - len(messages)) if max_results else 500,
+            pageToken = next_page_token
+        ).execute()
+
+        messages.extend(result.get('messages', []))
+
+        next_page_token = result.get('nextPageToken')
+
+        if not next_page_token or (max_results and len(messages) >= max_results):
+            break
+
+    return messages[:max_results] if max_results else messages
+
+
+def search_email_conversations(service,query,user_id='me',max_results = 5):
+    conversations = []
+    next_page_token = None
+
+    while True: 
+        result = service.users().threads().list(
+            userId=user_id,
+            q=query,
+            maxResults = min(500, max_results - len(conversations)) if max_results else 500,
+            pageToken = next_page_token
+        ).execute()
+
+        conversations.extend(result.get('threads',[]))
+
+        next_page_token = result.get('nextPageToken')
+
+        if not next_page_token or (max_results and len(conversations) >= max_results):
+            break
+
+    return conversations[:max_results] if max_results else conversations
